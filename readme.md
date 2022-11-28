@@ -2,4 +2,4 @@
 
 ## Built with HTML Canvas, CSS, and mostly vanilla JavaScript
 
-<img src="" />
+<!-- <img src="https://github.com/RobbieProkop/particles-effect/blob/master/screen.png" /> -->
