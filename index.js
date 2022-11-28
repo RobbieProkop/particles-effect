@@ -67,5 +67,63 @@ class Particle {
         this.y -= 10;
       }
     }
+    //move particle
+    this.x += this.directionX;
+    this.y += this.directionY;
+    // draw particle
+    this.draw();
   }
 }
+
+// create particle array
+function init() {
+  particlesArray = [];
+  let numberOfParticles = (canvas.height * canvas.width) / 9000;
+  for (let i = 0; i < numberOfParticles; i++) {
+    let size = Math.random() * 5 + 1;
+    let x = Math.random() * (innerWidth - size * 2 - size * 2) + size * 2;
+    let y = Math.random() * (innerHeight - size * 2 - size * 2) + size * 2;
+    let directionX = Math.random() * 5 - 2.5;
+    let directionY = Math.random() * 5 - 2.5;
+    let color = "#8c5523";
+
+    particlesArray.push(
+      new Particle(x, y, directionX, directionY, size, color)
+    );
+  }
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+  for (let i = 0; i < particlesArray.length; i++) {
+    particlesArray[i].update();
+  }
+}
+
+// check if particles are close enough to connect
+function connect() {
+  // a represents each individual particle
+  for (let a = 0; a < particlesArray.length; a++) {
+    // b all consectutive particles in the same array
+    for (let b = a; b < particlesArray.length; b++) {
+      let distance =
+        (particlesArray[a].x - particlesArray[b].x) *
+          (particlesArray[a].x - particlesArray[b].x) +
+        (particlesArray[a].y - particlesArray[b].y) *
+          (particlesArray[a].y - particlesArray[b].y);
+
+      if (distance < (canvas.width / 7) * (canvas.height / 7)) {
+        ctx.strokeStyle = "rgba(140,85,31,1)";
+        ctx.beginPath();
+        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+init();
+animate();
