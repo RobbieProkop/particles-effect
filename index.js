@@ -6,13 +6,14 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let particlesArray;
+let particlesArray = [];
 
 // get mouse position
 let mouse = {
   x: null,
   y: null,
-  radius: (canvas.height / 80) * (canvas.width / 80),
+  // radius: (canvas.height / 80) * (canvas.width / 80),
+  radius: 150,
 };
 
 //set x & y position to mouse position
@@ -80,8 +81,8 @@ class Particle {
 
 // create particle array
 function init() {
-  particlesArray = [];
   let numberOfParticles = (canvas.height * canvas.width) / 9000;
+  console.log("numberOfParticles", numberOfParticles);
   for (let i = 0; i < numberOfParticles; i++) {
     let size = Math.random() * 5 + 1;
     let x = Math.random() * (innerWidth - size * 2 - size * 2) + size * 2;
@@ -134,12 +135,14 @@ function animate() {
   }
   connect();
 }
-
+console.log("particlesArray", particlesArray);
 //window resize event
 window.addEventListener("resize", () => {
   canvas.width = innerWidth;
   canvas.height = innerHeight;
-  mouse.radius = (canvas.height / 80) * (canvas.height / 80);
+  // mouse.radius = (canvas.height / 80) * (canvas.height / 80);
+  mouse.radius = 150;
+  particlesArray = [];
   init();
 });
 
