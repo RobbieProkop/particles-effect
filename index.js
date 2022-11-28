@@ -1,3 +1,5 @@
+// FOllow along from https://www.youtube.com/watch?v=d620nV6bp0A
+
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -93,15 +95,6 @@ function init() {
   }
 }
 
-function animate() {
-  requestAnimationFrame(animate);
-  ctx.clearRect(0, 0, innerWidth, innerHeight);
-
-  for (let i = 0; i < particlesArray.length; i++) {
-    particlesArray[i].update();
-  }
-}
-
 // check if particles are close enough to connect
 function connect() {
   // a represents each individual particle
@@ -116,6 +109,7 @@ function connect() {
 
       if (distance < (canvas.width / 7) * (canvas.height / 7)) {
         ctx.strokeStyle = "rgba(140,85,31,1)";
+        ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
         ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
@@ -123,6 +117,16 @@ function connect() {
       }
     }
   }
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+  for (let i = 0; i < particlesArray.length; i++) {
+    particlesArray[i].update();
+  }
+  connect();
 }
 
 init();
