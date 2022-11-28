@@ -36,7 +36,8 @@ class Particle {
   draw() {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-    ctx.fillStyle = "#8c5523";
+    // ctx.fillStyle = "#8c5523";
+    ctx.fillStyle = "#fff";
     ctx.fill();
   }
 
@@ -87,7 +88,8 @@ function init() {
     let y = Math.random() * (innerHeight - size * 2 - size * 2) + size * 2;
     let directionX = Math.random() * 5 - 2.5;
     let directionY = Math.random() * 5 - 2.5;
-    let color = "#8c5523";
+    // let color = "#8c5523";
+    let color = "#fff";
 
     particlesArray.push(
       new Particle(x, y, directionX, directionY, size, color)
@@ -97,6 +99,8 @@ function init() {
 
 // check if particles are close enough to connect
 function connect() {
+  //make line opacity fade in
+  let opacityValue = 1;
   // a represents each individual particle
   for (let a = 0; a < particlesArray.length; a++) {
     // b all consectutive particles in the same array
@@ -108,7 +112,9 @@ function connect() {
           (particlesArray[a].y - particlesArray[b].y);
 
       if (distance < (canvas.width / 7) * (canvas.height / 7)) {
-        ctx.strokeStyle = "rgba(140,85,31,1)";
+        opacityValue = 1 - distance / 20000;
+        // ctx.strokeStyle = `rgba(140,85,31, ${opacityValue})`;
+        ctx.strokeStyle = `rgba(255,255,255, ${opacityValue})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
@@ -128,6 +134,20 @@ function animate() {
   }
   connect();
 }
+
+//window resize event
+window.addEventListener("resize", () => {
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+  mouse.radius = (canvas.height / 80) * (canvas.height / 80);
+  init();
+});
+
+//event to mouse out
+window.addEventListener("mouseout", () => {
+  mouse.x = undefined;
+  mouse.y = undefined;
+});
 
 init();
 animate();
